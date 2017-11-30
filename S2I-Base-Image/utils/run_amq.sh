@@ -62,7 +62,7 @@ case "${AMQ_MODE:="single"}" in
         for i in 1 2
         do
             INSTANCE=$($BASE/get_inst.py $VOLUME artemis $HOSTNAME)
-            export AMQ_MODE='a'
+            export AMQ_MODE='replicated_master'
             export ARTEMIS_PORT=6161$i
             export JOLOKIA_PORT=816$i
             do_amq_setup
@@ -77,7 +77,7 @@ case "${AMQ_MODE:="single"}" in
         for i in 1 2
         do
             INSTANCE=$($BASE/get_inst.py $VOLUME artemis $HOSTNAME)
-            export AMQ_MODE='b'
+            export AMQ_MODE='replicated_slave'
             export ARTEMIS_PORT=6161$(($i+2))
             export JOLOKIA_PORT=816$(($i+2))
             do_amq_setup
