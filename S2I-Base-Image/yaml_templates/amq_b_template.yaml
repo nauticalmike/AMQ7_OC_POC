@@ -3,32 +3,32 @@ kind: Template
 labels: {}
 metadata:
   annotations:
-    description: Template FedEx AMQ A
+    description: Template AMQ B
   labels:
-    app: amq7-a
-  name: amq7-a
+    app: amq7-b
+  name: amq7-b
 objects:
 - apiVersion: v1
   kind: DeploymentConfig
   metadata:
     labels:
-      app: amq-replicated
-    name: amq-replicated
+      app: amq-b
+    name: amq-b
   spec:
     replicas: 1
     selector:
-      app: amq-replicated
-      deploymentconfig: amq-replicated
+      app: amq-b
+      deploymentconfig: amq-b
     template:
       metadata:
         labels:
-          app: amq-replicated
-          deploymentconfig: amq-replicated
+          app: amq-b
+          deploymentconfig: amq-b
       spec:
         containers:
         - env:
           - name: AMQ_MODE
-            value: "replicated"
+            value: "b"
           imagePullPolicy: IfNotPresent
           #livenessProbe:
            # failureThreshold: 3
@@ -36,7 +36,7 @@ objects:
             #periodSeconds: 10
             #successThreshold: 1
             #tcpSocket:
-             # port: 61612
+             # port: 61614
             #timeoutSeconds: 1
           #readinessProbe:
            # failureThreshold: 3
@@ -44,20 +44,20 @@ objects:
             #periodSeconds: 10
             #successThreshold: 1
             #tcpSocket:
-             # port: 61612
+             # port: 61614
             #timeoutSeconds: 1
-          name: amq-replicated
+          name: amq-b
           ports:
-          - containerPort: 61611
+          - containerPort: 61613
             name: m1-artemis
             protocol: TCP
-          - containerPort: 61612
+          - containerPort: 61614
             name: m2-artemis
             protocol: TCP
-          - containerPort: 8161
+          - containerPort: 8163
             name: m1-jolokia
             protocol: TCP
-          - containerPort: 8162
+          - containerPort: 8164
             name: m2-jolokia
             protocol: TCP
     triggers:
@@ -65,7 +65,7 @@ objects:
     - imageChangeParams:
         automatic: true
         containerNames:
-        - amq-replicated
+        - amq-b
         from:
           kind: ImageStreamTag
           name: amq7-image:latest
@@ -74,60 +74,60 @@ objects:
   kind: Service
   metadata:
     annotations:
-      service.alpha.openshift.io/dependencies: '[{"name":"replicated-m2","namespace":"","kind":"Service"}]'
+      service.alpha.openshift.io/dependencies: '[{"name":"replicated-bm2","namespace":"","kind":"Service"}]'
     labels:
-      app: amq-replicated
-    name: replicated-m1
+      app: amq-b
+    name: replicated-bm1
   spec:
     ports:
     - name: m1-artemis
       protocol: TCP
-      port: 61611
+      port: 61613
       targetPort: m1-artemis
-      nodePort: 30611
+      nodePort: 30613
     - name: m1-jolokia
       protocol: TCP
-      port: 8161
+      port: 8163
       targetPort: m1-jolokia
-      nodePort: 30161
+      nodePort: 30163
     type: LoadBalancer
     selector:
-      app: amq-replicated
-      deploymentconfig: amq-replicated
+      app: amq-b
+      deploymentconfig: amq-b
 - apiVersion: v1
   kind: Service
   metadata:
     labels:
-      app: amq-replicated
-    name: replicated-m2
+      app: amq-b
+    name: replicated-bm2
   spec:
     ports:
     - name: m2-artemis
       protocol: TCP
-      port: 61612
+      port: 61614
       targetPort: m2-artemis
-      nodePort: 30612
+      nodePort: 30614
     - name: m2-jolokia
       protocol: TCP
-      port: 8162
+      port: 8164
       targetPort: m2-jolokia
-      nodePort: 30162
+      nodePort: 30164
     type: LoadBalancer
     selector:
-      app: amq-replicated
-      deploymentconfig: amq-replicated
+      app: amq-b
+      deploymentconfig: amq-b
 - apiVersion: v1
   kind: Route
   metadata:
     annotations:
       description: Route for service.
-    name: replicated-m1
+    name: replicated-bm1
     labels:
-      app: replicated-m1
+      app: replicated-bm1
   spec:
     to:
       kind: Service
-      name: replicated-m1
+      name: replicated-bm1
     tls:
       termination: "passthrough"
 - apiVersion: v1
@@ -135,12 +135,12 @@ objects:
   metadata:
     annotations:
       description: Route for service.
-    name: replicated-m2
+    name: replicated-bm2
     labels:
-      app: replicated-m2
+      app: replicated-bm2
   spec:
     to:
       kind: Service
-      name: replicated-m2
+      name: replicated-bm2
     tls:
       termination: "passthrough"

@@ -56,28 +56,36 @@ case "${AMQ_MODE:="single"}" in
             do_amq_setup
         done
         wait $!
-        exec tail -f /var/run/amq/artemis_1/log/artemis.log /var/run/amq/artemis_2/log/artemis.log /var/run/amq/artemis_3/log/artemis.log
+        exec tail -f /var/run/amq/artemis_1/log/artemis.log /var/run/amq/artemis_2/log/artemis.log
     ;;
-    'replicated' )
+    'a' )
         for i in 1 2
         do
             INSTANCE=$($BASE/get_inst.py $VOLUME artemis $HOSTNAME)
-            export AMQ_MODE='replicated_master'
+            export AMQ_MODE='a'
             export ARTEMIS_PORT=6161$i
             export JOLOKIA_PORT=816$i
             do_amq_setup
-
-            #INSTANCE=$($BASE/get_inst.py $VOLUME artemis $HOSTNAME)
-            #export AMQ_MODE='replicated_slave'
-            #export ARTEMIS_PORT=6161$i
-            #export JOLOKIA_PORT=816$(($i+3))
-            #do_amq_setup
 
             sleep 3
         done
 
         wait $!
-        exec tail -f /var/run/amq/artemis_1/log/artemis.log /var/run/amq/artemis_2/log/artemis.log #/var/run/amq/artemis_3/log/artemis.log /var/run/amq/artemis_4/log/artemis.log /var/run/amq/artemis_5/log/artemis.log /var/run/amq/artemis_6/log/artemis.log
+        exec tail -f /var/run/amq/artemis_1/log/artemis.log /var/run/amq/artemis_2/log/artemis.log
+    'b' )
+        for i in 1 2
+        do
+            INSTANCE=$($BASE/get_inst.py $VOLUME artemis $HOSTNAME)
+            export AMQ_MODE='b'
+            export ARTEMIS_PORT=6161$(($i+2))
+            export JOLOKIA_PORT=816$(($i+2))
+            do_amq_setup
+
+            sleep 3
+        done
+
+        wait $!
+        exec tail -f /var/run/amq/artemis_3/log/artemis.log /var/run/amq/artemis_4/log/artemis.log
     ;;
     'interconnect' )
         cp $AMQ_HOME/bin/qdrouterd_${LOCALE:="us"}.conf /etc/qpid-dispatch/qdrouterd.conf

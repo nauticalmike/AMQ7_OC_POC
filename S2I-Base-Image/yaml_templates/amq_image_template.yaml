@@ -3,10 +3,10 @@ kind: Template
 labels: {}
 metadata:
   annotations:
-    description: Template for FedEx amq7
+    description: Template Base Image AMQ7
   labels:
-    app: amq7-fedex
-  name: amq7-fedex
+    app: amq7-poc
+  name: amq7-poc
 objects:
 - apiVersion: v1
   kind: ImageStream
@@ -14,7 +14,7 @@ objects:
     annotations: {}
     labels:
       app: amq-image
-      project: amq7-fedex
+      project: amq7-poc
     name: amq7-image
   spec:
     tags:
@@ -31,7 +31,7 @@ objects:
     labels:
       app: amq-image
       group: build
-      project: amq7-fedex
+      project: amq7-poc
       version: 1.0.0
     name: amq7-image
   spec:
@@ -42,7 +42,7 @@ objects:
     source:
       contextDir: S2I-Base-Image
       git:
-        uri: https://github.com/RHSyseng/amq7.git
+        uri: https://github.com/nauticalmike/AMQ7_OC_POC.git
       images: []
       secrets: []
       type: Git
