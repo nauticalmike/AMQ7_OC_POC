@@ -89,7 +89,7 @@ case "${AMQ_MODE:="single"}" in
         exec tail -f /var/run/amq/artemis_3/log/artemis.log /var/run/amq/artemis_4/log/artemis.log
     ;;
     'interconnect' )
-        cp $AMQ_HOME/bin/qdrouterd_${LOCALE:="us"}.conf /etc/qpid-dispatch/qdrouterd.conf
+        cp $AMQ_HOME/bin/qdrouterd_${LOCALE:="a"}.conf /etc/qpid-dispatch/qdrouterd.conf
         exec qdrouterd
     ;;
 esac
