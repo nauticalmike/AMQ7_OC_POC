@@ -61,29 +61,29 @@
 
         <broadcast-groups>
         	<broadcast-group name="my-broadcast-group">
-           		<broadcast-period>2000</broadcast-period>
-           		<jgroups-file>test-jgroups-file_ping.xml</jgroups-file>
-           		<jgroups-channel>activemq_broadcast_channel</jgroups-channel>
-           		<connector-ref>my-connector</connector-ref>
-        	</broadcast-group>
-    	</broadcast-groups>
+           		<group-address>${udp-address:231.7.7.7}</group-address>
+                <group-port>9876</group-port>
+                <broadcast-period>5000</broadcast-period>
+                <connector-ref>artemis</connector-ref>
+            </broadcast-group>
+        </broadcast-groups>
 
         <discovery-groups>
       		<discovery-group name="my-discovery-group">
-        		<jgroups-file>test-jgroups-file_ping.xml</jgroups-file>
-        		<jgroups-channel>activemq_broadcast_channel</jgroups-channel>
-        		<refresh-timeout>10000</refresh-timeout>
-      		</discovery-group>
-    	</discovery-groups>
+                <group-address>${udp-address:231.7.7.7}</group-address>
+                <group-port>9876</group-port>
+                <refresh-timeout>10000</refresh-timeout>
+            </discovery-group>
+        </discovery-groups>
 
         <cluster-connections>
        		<cluster-connection name="my-cluster">
-         		<address>jms</address>
-         		<connector-ref>my-connector</connector-ref>
-         		<message-load-balancing>STRICT</message-load-balancing>
-         		<discovery-group-ref discovery-group-name="my-discovery-group"/>
-       		</cluster-connection>
-     	</cluster-connections>
+         		<connector-ref>artemis</connector-ref>
+                <message-load-balancing>ON_DEMAND</message-load-balancing>
+                <max-hops>0</max-hops>
+                <discovery-group-ref discovery-group-name="test-discovery-group"/>
+            </cluster-connection>
+        </cluster-connections>
 
         <!-- =========== HIGH AVAILABILITY CONFIG =========== -->
 
