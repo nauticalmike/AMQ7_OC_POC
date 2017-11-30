@@ -1,0 +1,113 @@
+apiVersion: v1
+kind: Template
+labels: {}
+metadata:
+  annotations:
+    description: Template FedEx AMQ A
+  labels:
+    app: amq7-a
+  name: amq7-a
+objects:
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    labels:
+      app: amq-a
+    name: amq-a
+  spec:
+    replicas: 1
+    selector:
+      app: amq-a
+      deploymentconfig: amq-a
+    template:
+      metadata:
+        labels:
+          app: amq-a
+          deploymentconfig: amq-a
+      spec:
+        containers:
+        - env:
+          - name: AMQ_MODE
+            value: "replicated"
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 90
+            periodSeconds: 10
+            successThreshold: 1
+            tcpSocket:
+              port: 61617
+            timeoutSeconds: 1
+          readinessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            tcpSocket:
+              port: 61617
+            timeoutSeconds: 1
+          name: amq-a
+          ports:
+          - containerPort: 61616
+            name: amq1-amqp
+            protocol: TCP
+          - containerPort: 52210
+            name: amq1-jolokia
+            protocol: TCP
+          - containerPort: 61617
+            name: amq2-amqp
+            protocol: TCP
+          - containerPort: 52212
+            name: amq2-jolokia
+            protocol: TCP
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - amq-a
+        from:
+          kind: ImageStreamTag
+          name: amq7-image:latest
+      type: ImageChange
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      service.alpha.openshift.io/dependencies: '[{"name":"replicated-a2","namespace":"","kind":"Service"}]'
+    labels:
+      app: amq-a
+    name: replicated-a1
+  spec:
+    ports:
+    - name: amq1-amqp
+      protocol: TCP
+      port: 52200
+      targetPort: amq1-amqp
+      nodePort: 30201
+    - name: jolokia
+      protocol: TCP
+      port: 8161
+      targetPort: jolokia
+      nodePort: 30251
+    - name: amqp
+      protocol: TCP
+      port: 5672
+      targetPort: amqp
+      nodePort: 30271
+    type: LoadBalancer
+    selector:
+      app: amq-a
+      deploymentconfig: amq-a
+- apiVersion: v1
+  kind: Route
+  metadata:
+    annotations:
+      description: Route for gogs's http service.
+    name: ${APPLICATION_NAME}
+    labels:
+      app: ${APPLICATION_NAME}
+  spec:
+    to:
+      kind: Service
+      name: ${APPLICATION_NAME}
