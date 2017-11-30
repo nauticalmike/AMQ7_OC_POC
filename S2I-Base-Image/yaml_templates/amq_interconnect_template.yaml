@@ -5,32 +5,32 @@ metadata:
   annotations:
     description: Template for setting up interconnect example
   labels:
-    app: amq7-refarch
-  name: amq7-refarch
+    app: amq7-qpid
+  name: amq7-qpid
 objects:
 - apiVersion: v1
   kind: DeploymentConfig
   metadata:
     labels:
       app: amq-interconnect
-    name: interconnect-us
+    name: interconnect-a
   spec:
     replicas: 1
     selector:
       app: amq-interconnect
-      deploymentconfig: interconnect-us
+      deploymentconfig: interconnect-a
     template:
       metadata:
         labels:
           app: amq-interconnect
-          deploymentconfig: interconnect-us
+          deploymentconfig: interconnect-a
       spec:
         containers:
         - env:
           - name: AMQ_MODE
             value: "interconnect"
           - name: LOCALE
-            value: "us"
+            value: "a"
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 3
@@ -48,7 +48,7 @@ objects:
             tcpSocket:
               port: 5672
             timeoutSeconds: 1
-          name: interconnect-us
+          name: interconnect-a
           ports:
           - containerPort: 5672
             name: amqp
@@ -64,7 +64,7 @@ objects:
     - imageChangeParams:
         automatic: true
         containerNames:
-        - interconnect-us
+        - interconnect-a
         from:
           kind: ImageStreamTag
           name: amq7-image:latest
@@ -74,24 +74,24 @@ objects:
   metadata:
     labels:
       app: amq-interconnect
-    name: interconnect-eu
+    name: interconnect-b
   spec:
     replicas: 1
     selector:
       app: amq-interconnect
-      deploymentconfig: interconnect-eu
+      deploymentconfig: interconnect-b
     template:
       metadata:
         labels:
           app: amq-interconnect
-          deploymentconfig: interconnect-eu
+          deploymentconfig: interconnect-b
       spec:
         containers:
         - env:
           - name: AMQ_MODE
             value: "interconnect"
           - name: LOCALE
-            value: "eu"
+            value: "b"
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 3
@@ -109,7 +109,7 @@ objects:
             tcpSocket:
               port: 5672
             timeoutSeconds: 1
-          name: interconnect-eu
+          name: interconnect-b
           ports:
           - containerPort: 5672
             name: amqp
@@ -125,312 +125,7 @@ objects:
     - imageChangeParams:
         automatic: true
         containerNames:
-        - interconnect-eu
-        from:
-          kind: ImageStreamTag
-          name: amq7-image:latest
-      type: ImageChange
-- apiVersion: v1
-  kind: DeploymentConfig
-  metadata:
-    labels:
-      app: amq-interconnect
-    name: interconnect-au
-  spec:
-    replicas: 1
-    selector:
-      app: amq-interconnect
-      deploymentconfig: interconnect-au
-    template:
-      metadata:
-        labels:
-          app: amq-interconnect
-          deploymentconfig: interconnect-au
-      spec:
-        containers:
-        - env:
-          - name: AMQ_MODE
-            value: "interconnect"
-          - name: LOCALE
-            value: "au"
-          imagePullPolicy: IfNotPresent
-          livenessProbe:
-            failureThreshold: 3
-            initialDelaySeconds: 90
-            periodSeconds: 10
-            successThreshold: 1
-            tcpSocket:
-              port: 5672
-            timeoutSeconds: 1
-          readinessProbe:
-            failureThreshold: 3
-            initialDelaySeconds: 10
-            periodSeconds: 10
-            successThreshold: 1
-            tcpSocket:
-              port: 5672
-            timeoutSeconds: 1
-          name: interconnect-au
-          ports:
-          - containerPort: 5672
-            name: amqp
-            protocol: TCP
-          - containerPort: 5673
-            name: console
-            protocol: TCP
-          - containerPort: 5674
-            name: intra
-            protocol: TCP
-    triggers:
-    - type: ConfigChange
-    - imageChangeParams:
-        automatic: true
-        containerNames:
-        - interconnect-au
-        from:
-          kind: ImageStreamTag
-          name: amq7-image:latest
-      type: ImageChange
-- apiVersion: v1
-  kind: DeploymentConfig
-  metadata:
-    labels:
-      app: amq-interconnect
-    name: interconnect-de
-  spec:
-    replicas: 1
-    selector:
-      app: amq-interconnect
-      deploymentconfig: interconnect-de
-    template:
-      metadata:
-        labels:
-          app: amq-interconnect
-          deploymentconfig: interconnect-de
-      spec:
-        containers:
-        - env:
-          - name: AMQ_MODE
-            value: "interconnect"
-          - name: LOCALE
-            value: "de"
-          imagePullPolicy: IfNotPresent
-          livenessProbe:
-            failureThreshold: 3
-            initialDelaySeconds: 90
-            periodSeconds: 10
-            successThreshold: 1
-            tcpSocket:
-              port: 5672
-            timeoutSeconds: 1
-          readinessProbe:
-            failureThreshold: 3
-            initialDelaySeconds: 10
-            periodSeconds: 10
-            successThreshold: 1
-            tcpSocket:
-              port: 5672
-            timeoutSeconds: 1
-          name: interconnect-de
-          ports:
-          - containerPort: 5672
-            name: amqp
-            protocol: TCP
-          - containerPort: 5673
-            name: console
-            protocol: TCP
-          - containerPort: 5674
-            name: intra
-            protocol: TCP
-    triggers:
-    - type: ConfigChange
-    - imageChangeParams:
-        automatic: true
-        containerNames:
-        - interconnect-de
-        from:
-          kind: ImageStreamTag
-          name: amq7-image:latest
-      type: ImageChange
-- apiVersion: v1
-  kind: DeploymentConfig
-  metadata:
-    labels:
-      app: amq-interconnect
-    name: interconnect-uk
-  spec:
-    replicas: 1
-    selector:
-      app: amq-interconnect
-      deploymentconfig: interconnect-uk
-    template:
-      metadata:
-        labels:
-          app: amq-interconnect
-          deploymentconfig: interconnect-uk
-      spec:
-        containers:
-        - env:
-          - name: AMQ_MODE
-            value: "interconnect"
-          - name: LOCALE
-            value: "uk"
-          imagePullPolicy: IfNotPresent
-          livenessProbe:
-            failureThreshold: 3
-            initialDelaySeconds: 90
-            periodSeconds: 10
-            successThreshold: 1
-            tcpSocket:
-              port: 5672
-            timeoutSeconds: 1
-          readinessProbe:
-            failureThreshold: 3
-            initialDelaySeconds: 10
-            periodSeconds: 10
-            successThreshold: 1
-            tcpSocket:
-              port: 5672
-            timeoutSeconds: 1
-          name: interconnect-uk
-          ports:
-          - containerPort: 5672
-            name: amqp
-            protocol: TCP
-          - containerPort: 5673
-            name: console
-            protocol: TCP
-          - containerPort: 5674
-            name: intra
-            protocol: TCP
-    triggers:
-    - type: ConfigChange
-    - imageChangeParams:
-        automatic: true
-        containerNames:
-        - interconnect-uk
-        from:
-          kind: ImageStreamTag
-          name: amq7-image:latest
-      type: ImageChange
-- apiVersion: v1
-  kind: DeploymentConfig
-  metadata:
-    labels:
-      app: amq-interconnect
-    name: interconnect-me
-  spec:
-    replicas: 1
-    selector:
-      app: amq-interconnect
-      deploymentconfig: interconnect-me
-    template:
-      metadata:
-        labels:
-          app: amq-interconnect
-          deploymentconfig: interconnect-me
-      spec:
-        containers:
-        - env:
-          - name: AMQ_MODE
-            value: "interconnect"
-          - name: LOCALE
-            value: "me"
-          imagePullPolicy: IfNotPresent
-          livenessProbe:
-            failureThreshold: 3
-            initialDelaySeconds: 90
-            periodSeconds: 10
-            successThreshold: 1
-            tcpSocket:
-              port: 5672
-            timeoutSeconds: 1
-          readinessProbe:
-            failureThreshold: 3
-            initialDelaySeconds: 10
-            periodSeconds: 10
-            successThreshold: 1
-            tcpSocket:
-              port: 5672
-            timeoutSeconds: 1
-          name: interconnect-me
-          ports:
-          - containerPort: 5672
-            name: amqp
-            protocol: TCP
-          - containerPort: 5673
-            name: console
-            protocol: TCP
-          - containerPort: 5674
-            name: intra
-            protocol: TCP
-    triggers:
-    - type: ConfigChange
-    - imageChangeParams:
-        automatic: true
-        containerNames:
-        - interconnect-me
-        from:
-          kind: ImageStreamTag
-          name: amq7-image:latest
-      type: ImageChange
-- apiVersion: v1
-  kind: DeploymentConfig
-  metadata:
-    labels:
-      app: amq-interconnect
-    name: interconnect-ca
-  spec:
-    replicas: 1
-    selector:
-      app: amq-interconnect
-      deploymentconfig: interconnect-ca
-    template:
-      metadata:
-        labels:
-          app: amq-interconnect
-          deploymentconfig: interconnect-ca
-      spec:
-        containers:
-        - env:
-          - name: AMQ_MODE
-            value: "interconnect"
-          - name: LOCALE
-            value: "ca"
-          imagePullPolicy: IfNotPresent
-          livenessProbe:
-            failureThreshold: 3
-            initialDelaySeconds: 90
-            periodSeconds: 10
-            successThreshold: 1
-            tcpSocket:
-              port: 5672
-            timeoutSeconds: 1
-          readinessProbe:
-            failureThreshold: 3
-            initialDelaySeconds: 10
-            periodSeconds: 10
-            successThreshold: 1
-            tcpSocket:
-              port: 5672
-            timeoutSeconds: 1
-          name: interconnect-ca
-          ports:
-          - containerPort: 5672
-            name: amqp
-            protocol: TCP
-          - containerPort: 5673
-            name: console
-            protocol: TCP
-          - containerPort: 5674
-            name: intra
-            protocol: TCP
-    triggers:
-    - type: ConfigChange
-    - imageChangeParams:
-        automatic: true
-        containerNames:
-        - interconnect-ca
+        - interconnect-b
         from:
           kind: ImageStreamTag
           name: amq7-image:latest
@@ -439,10 +134,10 @@ objects:
   kind: Service
   metadata:
     annotations:
-      service.alpha.openshift.io/dependencies: '[{"name":"interconnect-au","namespace":"","kind":"Service"},{"name":"interconnect-eu","namespace":"","kind":"Service"},{"name":"interconnect-uk","namespace":"","kind":"Service"},{"name":"interconnect-de","namespace":"","kind":"Service"},{"name":"interconnect-me","namespace":"","kind":"Service"},{"name":"interconnect-ca","namespace":"","kind":"Service"}]'
+      service.alpha.openshift.io/dependencies: '[{"name":"interconnect-b","namespace":"","kind":"Service"}]'
     labels:
       app: amq-interconnect
-    name: interconnect-us
+    name: interconnect-a
   spec:
     ports:
     - name: amqp
@@ -463,13 +158,13 @@ objects:
     type: LoadBalancer
     selector:
       app: amq-interconnect
-      deploymentconfig: interconnect-us
+      deploymentconfig: interconnect-a
 - apiVersion: v1
   kind: Service
   metadata:
     labels:
       app: amq-interconnect
-    name: interconnect-eu
+    name: interconnect-b
   spec:
     ports:
     - name: amqp
@@ -490,139 +185,4 @@ objects:
     type: LoadBalancer
     selector:
       app: amq-interconnect
-      deploymentconfig: interconnect-eu
-- apiVersion: v1
-  kind: Service
-  metadata:
-    labels:
-      app: amq-interconnect
-    name: interconnect-uk
-  spec:
-    ports:
-    - name: amqp
-      protocol: TCP
-      port: 5672
-      targetPort: amqp
-      nodePort: 30503
-    - name: console
-      protocol: TCP
-      port: 5673
-      targetPort: console
-      nodePort: 30553
-    - name: intra
-      protocol: TCP
-      port: 5674
-      targetPort: intra
-      nodePort: 30573
-    type: LoadBalancer
-    selector:
-      app: amq-interconnect
-      deploymentconfig: interconnect-uk
-- apiVersion: v1
-  kind: Service
-  metadata:
-    labels:
-      app: amq-interconnect
-    name: interconnect-de
-  spec:
-    ports:
-    - name: amqp
-      protocol: TCP
-      port: 5672
-      targetPort: amqp
-      nodePort: 30504
-    - name: console
-      protocol: TCP
-      port: 5673
-      targetPort: console
-      nodePort: 30554
-    - name: intra
-      protocol: TCP
-      port: 5674
-      targetPort: intra
-      nodePort: 30574
-    type: LoadBalancer
-    selector:
-      app: amq-interconnect
-      deploymentconfig: interconnect-de
-- apiVersion: v1
-  kind: Service
-  metadata:
-    labels:
-      app: amq-interconnect
-    name: interconnect-me
-  spec:
-    ports:
-    - name: amqp
-      protocol: TCP
-      port: 5672
-      targetPort: amqp
-      nodePort: 30505
-    - name: console
-      protocol: TCP
-      port: 5673
-      targetPort: console
-      nodePort: 30555
-    - name: intra
-      protocol: TCP
-      port: 5674
-      targetPort: intra
-      nodePort: 30575
-    type: LoadBalancer
-    selector:
-      app: amq-interconnect
-      deploymentconfig: interconnect-me
-- apiVersion: v1
-  kind: Service
-  metadata:
-    labels:
-      app: amq-interconnect
-    name: interconnect-ca
-  spec:
-    ports:
-    - name: amqp
-      protocol: TCP
-      port: 5672
-      targetPort: amqp
-      nodePort: 30506
-    - name: console
-      protocol: TCP
-      port: 5673
-      targetPort: console
-      nodePort: 30556
-    - name: intra
-      protocol: TCP
-      port: 5674
-      targetPort: intra
-      nodePort: 30576
-    type: LoadBalancer
-    selector:
-      app: amq-interconnect
-      deploymentconfig: interconnect-ca
-- apiVersion: v1
-  kind: Service
-  metadata:
-    labels:
-      app: amq-interconnect
-    name: interconnect-au
-  spec:
-    ports:
-    - name: amqp
-      protocol: TCP
-      port: 5672
-      targetPort: amqp
-      nodePort: 30507
-    - name: console
-      protocol: TCP
-      port: 5673
-      targetPort: console
-      nodePort: 30557
-    - name: intra
-      protocol: TCP
-      port: 5674
-      targetPort: intra
-      nodePort: 30577
-    type: LoadBalancer
-    selector:
-      app: amq-interconnect
-      deploymentconfig: interconnect-au
+      deploymentconfig: interconnect-b
