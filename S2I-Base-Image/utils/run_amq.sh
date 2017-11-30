@@ -72,6 +72,7 @@ case "${AMQ_MODE:="single"}" in
 
         wait $!
         exec tail -f /var/run/amq/artemis_1/log/artemis.log /var/run/amq/artemis_2/log/artemis.log
+    ;;
     'b' )
         for i in 1 2
         do
