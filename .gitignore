@@ -1,1 +1,15 @@
 .DS_Store
+.mtj .tmp/
+
+*.jar
+*.war
+*.ear
+
+target
+target/
+.project
+
+tmp
+/tmp
+tmp/
+/tmp/
