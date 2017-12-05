@@ -121,26 +121,62 @@ objects:
   metadata:
     annotations:
       description: Route for service.
-    name: replicated-bm1
+    name: replicated-bm1-1
     labels:
       app: replicated-bm1
   spec:
+    port:
+      targetPort: 30613
     to:
-      kind: Service
-      name: replicated-bm1
-    tls:
-      termination: "passthrough"
+      kind: "Service"
+      name: "replicated-bm1"
+    #tls:
+      #termination: "passthrough"
 - apiVersion: v1
   kind: Route
   metadata:
     annotations:
       description: Route for service.
-    name: replicated-bm2
+    name: replicated-bm1-2
+    labels:
+      app: replicated-bm1
+  spec:
+    port:
+      targetPort: 30163
+    to:
+      kind: "Service"
+      name: "replicated-bm1"
+    #tls:
+      #termination: "passthrough"
+- apiVersion: v1
+  kind: Route
+  metadata:
+    annotations:
+      description: Route for service.
+    name: replicated-bm2-1
     labels:
       app: replicated-bm2
   spec:
+    port:
+      targetPort: 30614
     to:
       kind: Service
       name: replicated-bm2
-    tls:
-      termination: "passthrough"
+    #tls:
+      #termination: "passthrough"
+- apiVersion: v1
+  kind: Route
+  metadata:
+    annotations:
+      description: Route for service.
+    name: replicated-bm2-2
+    labels:
+      app: replicated-bm2
+  spec:
+    port:
+      targetPort: 30164
+    to:
+      kind: Service
+      name: replicated-bm2
+    #tls:
+      #termination: "passthrough"

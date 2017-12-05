@@ -121,26 +121,62 @@ objects:
   metadata:
     annotations:
       description: Route for service.
-    name: replicated-am1
+    name: replicated-am1-1
     labels:
       app: replicated-am1
   spec:
+    port:
+      targetPort: 30611
     to:
-      kind: Service
-      name: replicated-am1
-    tls:
-      termination: "passthrough"
+      kind: "Service"
+      name: "replicated-am1"
+    #tls:
+      #termination: "passthrough"
 - apiVersion: v1
   kind: Route
   metadata:
     annotations:
       description: Route for service.
-    name: replicated-am2
+    name: replicated-am1-2
+    labels:
+      app: replicated-am1
+  spec:
+    port:
+      targetPort: 30161
+    to:
+      kind: "Service"
+      name: "replicated-am1"
+    #tls:
+      #termination: "passthrough"
+- apiVersion: v1
+  kind: Route
+  metadata:
+    annotations:
+      description: Route for service.
+    name: replicated-am2-1
     labels:
       app: replicated-am2
   spec:
+    port:
+      targetPort: 30612
     to:
       kind: Service
       name: replicated-am2
-    tls:
-      termination: "passthrough"
+    #tls:
+      #termination: "passthrough"
+- apiVersion: v1
+  kind: Route
+  metadata:
+    annotations:
+      description: Route for service.
+    name: replicated-am2-2
+    labels:
+      app: replicated-am2
+  spec:
+    port:
+      targetPort: 30162
+    to:
+      kind: Service
+      name: replicated-am2
+    #tls:
+      #termination: "passthrough"
