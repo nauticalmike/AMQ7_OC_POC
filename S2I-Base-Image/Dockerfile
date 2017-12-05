@@ -8,7 +8,7 @@ RUN mkdir /var/run/amq && \
     touch /var/run/amq/x && \
     mkdir /etc/qpid-dispatch && \
     touch /etc/qpid-dispatch/x && \
-    chmod -R 777 /var/run/amq /etc/qpid-dispatch /client && \
+    chmod -R 777 /var/run/amq /etc/qpid-dispatch && \
     chmod +x /opt/amq-broker-7.0.2/bin/run_amq.sh /opt/amq-broker-7.0.2/bin/get_inst.py
 
 VOLUME /var/run/amq /etc/qpid-dispatch
