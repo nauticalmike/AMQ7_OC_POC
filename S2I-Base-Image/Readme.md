@@ -17,7 +17,7 @@ oc new-project amq
 Import base AMQ7 S2I image template:
 
 ```
-oc process -f https://raw.githubusercontent.com/jeremyary/amq7-image/master/yaml_templates/amq_image_template.yaml | oc create -f -
+oc process -f https://github.com/nauticalmike/AMQ7_OC_POC/blob/master/S2I-Base-Image/yaml_templates/amq_image_template.yaml | oc create -f -
 ```
 
 Trigger new build of base image:
@@ -26,17 +26,9 @@ Trigger new build of base image:
 oc start-build amq7-image
 ```
 
-Import single, symmetric, replicated, and interconnect templates:
-
-```
-oc process -f https://raw.githubusercontent.com/jeremyary/amq7-image/master/yaml_templates/amq_single_template.yaml | oc create -f -
-oc process -f https://raw.githubusercontent.com/jeremyary/amq7-image/master/yaml_templates/amq_symmetric_template.yaml | oc create -f -
-oc process -f https://raw.githubusercontent.com/jeremyary/amq7-image/master/yaml_templates/amq_replicated_template.yaml | oc create -f -
-oc process -f https://raw.githubusercontent.com/jeremyary/amq7-image/master/yaml_templates/amq_interconnect_template.yaml | oc create -f -
-```
-
-### Correlating Test Project Repo
+### Correlating Original Project Repos
 
 Project containing a suite of tests that exercise the various populated services/cluster:
 
+https://github.com/RHsyseng/amq7
 https://github.com/jeremyary/amq7-refarch
