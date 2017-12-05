@@ -26,9 +26,10 @@ Trigger new build of base image:
 oc start-build amq7-image
 ```
 
-### Correlating Original Project Repos
+### Correlating Original Project Repos:
 
 Project containing a suite of tests that exercise the various populated services/cluster:
 
 https://github.com/RHsyseng/amq7
+
 https://github.com/jeremyary/amq7-refarch
