@@ -186,3 +186,88 @@ objects:
     selector:
       app: amq-interconnect
       deploymentconfig: interconnect-b
+- apiVersion: v1
+  kind: Route
+  metadata:
+    annotations:
+      description: Route for service.
+    name: interconnect-a-1
+    labels:
+      app: interconnect-a-1
+  spec:
+    port:
+      targetPort: 30501
+    to:
+      kind: "Service"
+      name: "interconnect-a"
+- apiVersion: v1
+  kind: Route
+  metadata:
+    annotations:
+      description: Route for service.
+    name: interconnect-a-2
+    labels:
+      app: interconnect-a-2
+  spec:
+    port:
+      targetPort: 30551
+    to:
+      kind: "Service"
+      name: "interconnect-a"
+- apiVersion: v1
+  kind: Route
+  metadata:
+    annotations:
+      description: Route for service.
+    name: interconnect-a-3
+    labels:
+      app: interconnect-a-3
+  spec:
+    port:
+      targetPort: 30571
+    to:
+      kind: "Service"
+      name: "interconnect-a"
+      
+- apiVersion: v1
+  kind: Route
+  metadata:
+    annotations:
+      description: Route for service.
+    name: interconnect-b-1
+    labels:
+      app: interconnect-b-1
+  spec:
+    port:
+      targetPort: 30502
+    to:
+      kind: "Service"
+      name: "interconnect-b"
+- apiVersion: v1
+  kind: Route
+  metadata:
+    annotations:
+      description: Route for service.
+    name: interconnect-b-2
+    labels:
+      app: interconnect-b-2
+  spec:
+    port:
+      targetPort: 30552
+    to:
+      kind: "Service"
+      name: "interconnect-b"
+- apiVersion: v1
+  kind: Route
+  metadata:
+    annotations:
+      description: Route for service.
+    name: interconnect-b-3
+    labels:
+      app: interconnect-b-3
+  spec:
+    port:
+      targetPort: 30572
+    to:
+      kind: "Service"
+      name: "interconnect-b"

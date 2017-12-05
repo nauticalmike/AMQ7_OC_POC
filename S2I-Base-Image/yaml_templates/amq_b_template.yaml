@@ -30,22 +30,22 @@ objects:
           - name: AMQ_MODE
             value: "b"
           imagePullPolicy: IfNotPresent
-          #livenessProbe:
-           # failureThreshold: 3
-            #initialDelaySeconds: 90
-            #periodSeconds: 10
-            #successThreshold: 1
-            #tcpSocket:
-             # port: 61614
-            #timeoutSeconds: 1
-          #readinessProbe:
-           # failureThreshold: 3
-            #initialDelaySeconds: 10
-            #periodSeconds: 10
-            #successThreshold: 1
-            #tcpSocket:
-             # port: 61614
-            #timeoutSeconds: 1
+          livenessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 90
+            periodSeconds: 10
+            successThreshold: 1
+            tcpSocket:
+              port: 30164
+            timeoutSeconds: 1
+          readinessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            tcpSocket:
+              port: 30164
+            timeoutSeconds: 1
           name: amq-b
           ports:
           - containerPort: 61613
