@@ -23,7 +23,7 @@ public class MySpringBootApplication {
     @Bean
     public JmsConnectionFactory jmsConnectionFactory(){
     	JmsConnectionFactory jmsConnectionFactory = new JmsConnectionFactory();
-    	jmsConnectionFactory.setRemoteURI("amqps://interconnect-a-1-fedexamq7poc.apps.na1.openshift.opentlc.com:30501?transport.verifyHost=false");
+    	jmsConnectionFactory.setRemoteURI("amqp://interconnect-a-1-fedexamq7poc.apps.na1.openshift.opentlc.com:30501?transport.verifyHost=false");
     	return jmsConnectionFactory;
     }
 
